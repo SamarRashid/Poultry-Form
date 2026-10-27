@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  --midnight-navy: #111827;
+  --sidebar-bg: #0B1220;
+  --electric-teal: #0D9488;
+  --fresh-lime: #C4F16A;
+  --cool-mist-bg: #F3F6FA;
+  --white-card: #FFFFFF;
+  --primary-text: #172033;
+  --secondary-text: #64748B;
+  --border-color: #E2E8F0;
+  --success: #15803D;
+  --warning: #D97706;
+  --error: #DC2626;
+}
+
+body {
+  background-color: var(--cool-mist-bg);
+  color: var(--primary-text);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Restrained Card Elevations */
+.flockora-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 0.75rem; /* 12px */
+  box-shadow: 0 1px 3px 0 rgba(17, 24, 39, 0.03), 0 1px 2px -1px rgba(17, 24, 39, 0.03);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.flockora-card:hover {
+  border-color: #CBD5E1;
+}
+
+/* Custom Minimalist Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F3F6FA;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
