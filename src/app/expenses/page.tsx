@@ -1,24 +1,23 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Banknote, Plus, Download } from 'lucide-react';
-import { initialTransactions } from '@/data/mockFarmData';
+import { initialTransactions } from '@/data/farmData';
 import { formatPKR } from '@/lib/utils';
+import QuickActionModal from '@/components/modals/QuickActionModal';
+import { useLanguage } from '@/context/LanguageContext';
 
-interface ExpensesCashBookViewProps {
-  onOpenAddExpenseModal: () => void;
-}
+export default function ExpensesCashBookPage() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const { isUrdu } = useLanguage();
 
-export default function ExpensesCashBookView({
-  onOpenAddExpenseModal,
-}: ExpensesCashBookViewProps) {
   const totalInflow = initialTransactions
-    .filter((t) => t.type === 'Income')
-    .reduce((sum, t) => sum + t.amountPKR, 0);
+    .filter((tx) => tx.type === 'Income')
+    .reduce((sum, tx) => sum + tx.amountPKR, 0);
 
   const totalOutflow = initialTransactions
-    .filter((t) => t.type === 'Expense')
-    .reduce((sum, t) => sum + t.amountPKR, 0);
+    .filter((tx) => tx.type === 'Expense')
+    .reduce((sum, tx) => sum + tx.amountPKR, 0);
 
   return (
     <div className="space-y-5 animate-in fade-in duration-200">
@@ -29,30 +28,32 @@ export default function ExpensesCashBookView({
             <Banknote className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-[#0F172A]">
-              Commercial Cash Book & Expense Ledger
-            </h2>
+            <h1 className="text-xl font-bold tracking-tight text-[#0F172A]">
+              {isUrdu ? 'اخراجات اور کیش بک کھاتہ' : 'Expenses & Cash Book Ledger'}
+            </h1>
             <p className="text-xs text-[#64748B] font-normal mt-0.5">
-              Daily egg wholesale receivables, feed supplier settlements, and operating expenses in PKR
+              {isUrdu
+                ? 'فارم کے روزمرہ اخراجات، انڈوں کی ہول سیل سیلز، جنریٹر ڈیزل اور میڈیسن واؤچرز'
+                : 'Commercial egg sales revenue, generator diesel, vaccine vouchers, and operating expenses in PKR'}
             </p>
           </div>
         </div>
 
         <button
-          onClick={onOpenAddExpenseModal}
+          onClick={() => setModalOpen(true)}
           className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#0D9488] hover:bg-[#0f766e] text-white text-xs font-semibold rounded-lg shadow-sm transition-colors cursor-pointer shrink-0"
         >
           <Plus className="w-4 h-4" />
-          <span>Post Operating Expense</span>
+          <span>{isUrdu ? 'نیا خرچ درج کریں' : 'Post Operating Expense'}</span>
         </button>
       </div>
 
-      {/* Financial Ledger Flow Cards */}
+      {/* 3 Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
           <div>
             <span className="text-xs font-medium text-[#64748B] block">
-              Total Receipts (Inflow)
+              {isUrdu ? 'آمدن (سیلز)' : 'Total Verified Inflow (Sales)'}
             </span>
             <div className="mt-2 flex items-baseline space-x-1.5">
               <span className="text-2xl font-bold tracking-tight text-[#15803D]">
@@ -60,31 +61,31 @@ export default function ExpensesCashBookView({
               </span>
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-[#E2E8F0] text-xs text-[#64748B]">
-            Egg Wholesale & Byproducts
+          <div className="mt-3 pt-2.5 border-t border-[#E2E8F0] text-xs">
+            <span className="text-[11px] text-[#15803D] font-medium">+ 3 Commercial Dispatches</span>
           </div>
         </div>
 
         <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
           <div>
             <span className="text-xs font-medium text-[#64748B] block">
-              Operating Outflow
+              {isUrdu ? 'اخراجات (ادائیگیاں)' : 'Total Operating Outflow'}
             </span>
             <div className="mt-2 flex items-baseline space-x-1.5">
-              <span className="text-2xl font-bold tracking-tight text-[#DC2626]">
+              <span className="text-2xl font-bold tracking-tight text-[#0F172A]">
                 {formatPKR(totalOutflow)}
               </span>
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-[#E2E8F0] text-xs text-[#64748B]">
-            Feed, Diesel & Biosecurity
+          <div className="mt-3 pt-2.5 border-t border-[#E2E8F0] text-xs">
+            <span className="text-[11px] text-[#64748B]">Fuel, feed & labor vouchers</span>
           </div>
         </div>
 
         <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
           <div>
             <span className="text-xs font-medium text-[#64748B] block">
-              Operating Net Surplus
+              {isUrdu ? 'خالص کیش بیلنس' : 'Net Operational Cash Margin'}
             </span>
             <div className="mt-2 flex items-baseline space-x-1.5">
               <span className="text-2xl font-bold tracking-tight text-[#0F172A]">
@@ -104,9 +105,11 @@ export default function ExpensesCashBookView({
       <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E2E8F0] shadow-xs">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h3 className="text-base font-semibold text-[#0F172A]">Financial Vouchers & Invoices</h3>
+            <h2 className="text-base font-semibold text-[#0F172A]">
+              {isUrdu ? 'مالیاتی واؤچرز اور انوائس ریکارڈز' : 'Financial Vouchers & Invoices'}
+            </h2>
             <p className="text-xs text-[#64748B]">
-              Verified entries recorded by farm accountant & operations director
+              {isUrdu ? 'فارم اکاؤنٹنٹ اور ڈائریکٹر کے تصدیق شدہ اندراجات' : 'Verified entries recorded by farm accountant & operations director'}
             </p>
           </div>
           <button
@@ -165,6 +168,12 @@ export default function ExpensesCashBookView({
           </table>
         </div>
       </div>
+
+      {/* Quick Action Modal for Expense Posting */}
+      <QuickActionModal
+        actionType={modalOpen ? 'add-expense' : null}
+        onClose={() => setModalOpen(false)}
+      />
     </div>
   );
 }

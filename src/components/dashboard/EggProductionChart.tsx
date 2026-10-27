@@ -12,10 +12,12 @@ import {
   Legend,
 } from 'recharts';
 import { Egg } from 'lucide-react';
-import { eggProduction7Days, eggProduction30Days } from '@/data/mockFarmData';
+import { eggProduction7Days, eggProduction30Days } from '@/data/farmData';
 import { formatNumber } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function EggProductionChart() {
+  const { t } = useLanguage();
   const [range, setRange] = useState<'7d' | '30d'>('7d');
   const [viewMode, setViewMode] = useState<'total' | 'by-shed'>('total');
   const [isClient, setIsClient] = useState(false);
@@ -44,14 +46,14 @@ export default function EggProductionChart() {
               <Egg className="w-4 h-4" />
             </div>
             <h2 className="text-base font-semibold text-[#172033] tracking-tight">
-              Egg Production Trend
+              {t.chartTitle}
             </h2>
             <span className="text-[10px] font-medium bg-slate-100 text-[#64748B] px-2 py-0.5 rounded-full border border-[#E2E8F0]">
-              Commercial Layer Yield
+              {t.chartTag}
             </span>
           </div>
           <p className="text-xs text-[#64748B] font-normal mt-0.5">
-            Daily collection yield across Shed 1 (Lohmann), Shed 2 (Hy-Line), and Shed 3 (Novogen)
+            {t.chartDesc}
           </p>
         </div>
 
@@ -67,7 +69,7 @@ export default function EggProductionChart() {
                   : 'text-[#64748B] hover:text-[#172033]'
               }`}
             >
-              Total
+              {t.modeTotal}
             </button>
             <button
               onClick={() => setViewMode('by-shed')}
@@ -77,7 +79,7 @@ export default function EggProductionChart() {
                   : 'text-[#64748B] hover:text-[#172033]'
               }`}
             >
-              By Shed
+              {t.modeByShed}
             </button>
           </div>
 
@@ -91,7 +93,7 @@ export default function EggProductionChart() {
                   : 'text-[#64748B] hover:text-[#172033]'
               }`}
             >
-              7 Days
+              {t.range7Days}
             </button>
             <button
               onClick={() => setRange('30d')}
@@ -101,7 +103,7 @@ export default function EggProductionChart() {
                   : 'text-[#64748B] hover:text-[#172033]'
               }`}
             >
-              30 Days
+              {t.range30Days}
             </button>
           </div>
         </div>
@@ -177,27 +179,44 @@ export default function EggProductionChart() {
                   if (active && payload && payload.length) {
                     const data = payload[0].payload;
                     return (
-                      <div className="bg-[#111827] text-white p-2.5 rounded-lg shadow-xl text-xs space-y-1 min-w-40 border border-slate-800">
-                        <div className="flex items-center justify-between border-b border-slate-800 pb-1">
-                          <span className="font-semibold text-white">{label}</span>
-                          <span className="text-[10px] text-[#C4F16A]">{data.efficiencyRate}% Laying</span>
-                        </div>
-                        <div className="flex justify-between items-center text-[#0D9488] font-semibold pt-0.5">
-                          <span>Total Yield:</span>
-                          <span className="text-white">{formatNumber(data.total)}</span>
-                        </div>
-                        <div className="text-[10px] text-slate-300 pt-1 border-t border-slate-800 space-y-0.5">
-                          <div className="flex justify-between">
-                            <span>Shed 1:</span>
-                            <span>{formatNumber(data.shed1)}</span>
+                      <div className="bg-white/95 backdrop-blur-md text-[#172033] p-3 rounded-xl shadow-xl border border-[#E2E8F0] text-xs space-y-2 min-w-[190px]">
+                        <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-1.5">
+                          <div className="flex items-center space-x-1.5">
+                            <span className="w-2 h-2 rounded-full bg-[#0D9488]" />
+                            <span className="font-bold text-[#172033]">{label}</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span>Shed 2:</span>
-                            <span>{formatNumber(data.shed2)}</span>
+                          <span className="text-[10.5px] font-semibold text-[#0D9488] bg-teal-50 border border-teal-100 px-1.5 py-0.5 rounded">
+                            {data.efficiencyRate}% Laying
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center pt-0.5">
+                          <span className="text-xs font-semibold text-[#64748B]">Total Yield:</span>
+                          <span className="text-sm font-bold text-[#0D9488]">
+                            {formatNumber(data.total)}{' '}
+                            <span className="text-[10px] font-normal text-[#64748B]">eggs</span>
+                          </span>
+                        </div>
+                        <div className="text-[11px] text-[#64748B] pt-1.5 border-t border-[#F1F5F9] space-y-1">
+                          <div className="flex justify-between items-center">
+                            <span className="flex items-center space-x-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#111827]" />
+                              <span>Shed 1:</span>
+                            </span>
+                            <span className="font-semibold text-[#172033]">{formatNumber(data.shed1)}</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span>Shed 3:</span>
-                            <span>{formatNumber(data.shed3)}</span>
+                          <div className="flex justify-between items-center">
+                            <span className="flex items-center space-x-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#0D9488]" />
+                              <span>Shed 2:</span>
+                            </span>
+                            <span className="font-semibold text-[#172033]">{formatNumber(data.shed2)}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="flex items-center space-x-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#64748B]" />
+                              <span>Shed 3:</span>
+                            </span>
+                            <span className="font-semibold text-[#172033]">{formatNumber(data.shed3)}</span>
                           </div>
                         </div>
                       </div>

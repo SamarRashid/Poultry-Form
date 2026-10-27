@@ -2,7 +2,7 @@
 
 :root {
   --midnight-navy: #111827;
-  --sidebar-bg: #0B1220;
+  --sidebar-bg: #073330;
   --electric-teal: #0D9488;
   --fresh-lime: #C4F16A;
   --cool-mist-bg: #F3F6FA;
@@ -21,6 +21,10 @@ body {
   font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.urdu-mode {
+  font-family: var(--font-geist-sans), "Segoe UI", Tahoma, "Noto Nastaliq Urdu", sans-serif;
 }
 
 /* Restrained Card Elevations */

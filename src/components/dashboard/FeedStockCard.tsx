@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import { Boxes, AlertTriangle, AlertCircle, CheckCircle2, ArrowRight } from 'lucide-react';
-import { initialFeedInventory } from '@/data/mockFarmData';
+import { initialFeedInventory } from '@/data/farmData';
 import { deriveFeedStatus, formatNumber } from '@/lib/utils';
 import { FeedInventoryItem } from '@/types/farm';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface FeedStockCardProps {
   onViewInventory: () => void;
@@ -15,6 +16,7 @@ export default function FeedStockCard({
   onViewInventory,
   items = initialFeedInventory,
 }: FeedStockCardProps) {
+  const { t } = useLanguage();
   const [filterCategory, setFilterCategory] = useState<string>('All');
 
   const filteredItems = items.filter((item) => {
@@ -43,17 +45,17 @@ export default function FeedStockCard({
             <div>
               <div className="flex items-center space-x-2">
                 <h2 className="text-base font-semibold text-[#172033] tracking-tight">
-                  Feed Silo Inventory
+                  {t.feedCardTitle}
                 </h2>
                 {lowStockCount > 0 && (
                   <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-semibold bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/30">
                     <AlertTriangle className="w-2.5 h-2.5 mr-1 text-[#D97706]" />
-                    {lowStockCount} Reorder Alerts
+                    {lowStockCount} {t.feedFilterAlerts}
                   </span>
                 )}
               </div>
               <p className="text-xs text-[#64748B] font-normal">
-                Available grain and premix stock vs configured safety thresholds
+                {t.feedCardSubtitle}
               </p>
             </div>
           </div>
@@ -68,7 +70,7 @@ export default function FeedStockCard({
                   : 'text-[#64748B] hover:text-[#172033]'
               }`}
             >
-              All ({items.length})
+              {t.feedFilterAll} ({items.length})
             </button>
             <button
               onClick={() => setFilterCategory('Alerts')}
@@ -78,7 +80,7 @@ export default function FeedStockCard({
                   : 'text-[#64748B] hover:text-[#172033]'
               }`}
             >
-              Alerts ({lowStockCount})
+              {t.feedFilterAlerts} ({lowStockCount})
             </button>
           </div>
         </div>
@@ -94,16 +96,16 @@ export default function FeedStockCard({
               <thead>
                 <tr className="border-b border-[#E2E8F0] text-[10px] font-semibold text-[#64748B] uppercase tracking-wider bg-[#F3F6FA]/80">
                   <th scope="col" className="py-2 px-2.5">
-                    Feed Material
+                    {t.feedColMaterial}
                   </th>
                   <th scope="col" className="py-2 px-2.5">
-                    Available Stock
+                    {t.feedColStock}
                   </th>
                   <th scope="col" className="py-2 px-2.5">
-                    Min Threshold
+                    {t.feedColMin}
                   </th>
                   <th scope="col" className="py-2 px-2.5 text-right">
-                    Stock Status
+                    {t.feedColStatus}
                   </th>
                 </tr>
               </thead>

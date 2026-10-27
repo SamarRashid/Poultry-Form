@@ -4,18 +4,16 @@ import React, { useState } from 'react';
 import {
   Settings,
   Building2,
-  User,
   Bell,
-  Shield,
   Save,
   CheckCircle2,
   Sliders,
-  Smartphone,
-  MapPin,
 } from 'lucide-react';
-import { farmProfile } from '@/data/mockFarmData';
+import { farmProfile } from '@/data/farmData';
+import { useLanguage } from '@/context/LanguageContext';
 
-export default function SettingsView() {
+export default function SettingsPage() {
+  const { isUrdu } = useLanguage();
   const [companyName, setCompanyName] = useState('Flockora Layers');
   const [directorName, setDirectorName] = useState(farmProfile.owner);
   const [farmLocation, setFarmLocation] = useState(farmProfile.location);
@@ -46,11 +44,13 @@ export default function SettingsView() {
             <Settings className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-[#172033]">
-              Flockora Platform Configuration
-            </h2>
+            <h1 className="text-lg font-bold text-[#172033]">
+              {isUrdu ? 'فلاکوورا پلیٹ فارم کنفیگریشن' : 'Flockora Platform Configuration'}
+            </h1>
             <p className="text-xs text-[#64748B]">
-              Manage farm enterprise parameters, telemetry alert triggers, and biometric notifications
+              {isUrdu
+                ? 'فارم کی قانونی معلومات، ٹیلی میٹری الرٹ کی حدود اور خودکار نوٹیفکیشنز کا انتظام'
+                : 'Manage farm enterprise parameters, telemetry alert triggers, and biometric notifications'}
             </p>
           </div>
         </div>
@@ -59,7 +59,7 @@ export default function SettingsView() {
           {saved && (
             <span className="flex items-center space-x-1 text-xs font-semibold text-[#0D9488] bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-100 animate-in fade-in">
               <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>Saved Successfully</span>
+              <span>{isUrdu ? 'کامیابی سے محفوظ ہو گیا' : 'Saved Successfully'}</span>
             </span>
           )}
 
@@ -69,7 +69,7 @@ export default function SettingsView() {
             className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#0D9488] hover:bg-[#0b7d73] text-white text-xs font-semibold rounded-lg shadow-xs transition-colors cursor-pointer"
           >
             <Save className="w-4 h-4" />
-            <span>Save Changes</span>
+            <span>{isUrdu ? 'تبدیلیاں محفوظ کریں' : 'Save Changes'}</span>
           </button>
         </div>
       </div>
@@ -83,14 +83,18 @@ export default function SettingsView() {
                 <Building2 className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-[#172033]">Enterprise & Commercial Profile</h3>
-                <p className="text-[11px] text-[#64748B]">Commercial entity credentials and farm licensing</p>
+                <h2 className="text-sm font-bold text-[#172033]">
+                  {isUrdu ? 'کمرشل پروفائل اور برانڈ کی معلومات' : 'Enterprise & Commercial Profile'}
+                </h2>
+                <p className="text-[11px] text-[#64748B]">
+                  {isUrdu ? 'فارم کی شناخت اور زرعی رجسٹریشن' : 'Commercial entity credentials and farm licensing'}
+                </p>
               </div>
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-[#172033] mb-1.5">
-                Software & Enterprise Brand Name
+                {isUrdu ? 'برانڈ کا نام' : 'Software & Enterprise Brand Name'}
               </label>
               <input
                 type="text"
@@ -102,7 +106,7 @@ export default function SettingsView() {
 
             <div>
               <label className="block text-xs font-semibold text-[#172033] mb-1.5">
-                Executive Officer / Managing Director
+                {isUrdu ? 'مینجنگ ڈائریکٹر / انچارج' : 'Executive Officer / Managing Director'}
               </label>
               <input
                 type="text"
@@ -115,7 +119,7 @@ export default function SettingsView() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-semibold text-[#172033] mb-1.5">
-                  Facility Location
+                  {isUrdu ? 'فارم کا پتہ' : 'Facility Location'}
                 </label>
                 <input
                   type="text"
@@ -127,7 +131,7 @@ export default function SettingsView() {
 
               <div>
                 <label className="block text-xs font-semibold text-[#172033] mb-1.5">
-                  Agri License / NTN
+                  {isUrdu ? 'زرعی لائسنس / این ٹی این' : 'Agri License / NTN'}
                 </label>
                 <input
                   type="text"
@@ -146,14 +150,18 @@ export default function SettingsView() {
                 <Sliders className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="text-sm font-bold text-[#172033]">IoT Telemetry & Trigger Limits</h3>
-                <p className="text-[11px] text-[#64748B]">Automated climate and silo safety parameters</p>
+                <h2 className="text-sm font-bold text-[#172033]">
+                  {isUrdu ? 'آئی او ٹی سینسرز اور الرٹ کی حدود' : 'IoT Telemetry & Trigger Limits'}
+                </h2>
+                <p className="text-[11px] text-[#64748B]">
+                  {isUrdu ? 'خودکار درجہ حرارت اور سائلو کے حفاظتی پیرامیٹرز' : 'Automated climate and silo safety parameters'}
+                </p>
               </div>
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-[#172033] mb-1.5">
-                Emergency Silo Buffer Threshold (kg)
+                {isUrdu ? 'سائلو کی کم از کم الرٹ حد (کلوگرام)' : 'Emergency Silo Buffer Threshold (kg)'}
               </label>
               <input
                 type="number"
@@ -215,15 +223,21 @@ export default function SettingsView() {
               <Bell className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-[#172033]">Critical Notification Dispatch</h3>
-              <p className="text-[11px] text-[#64748B]">Instant SMS and WhatsApp alerts for farm managers</p>
+              <h2 className="text-sm font-bold text-[#172033]">
+                {isUrdu ? 'ایس ایم ایس اور واٹس ایپ نوٹیفکیشنز' : 'Critical Notification Dispatch'}
+              </h2>
+              <p className="text-[11px] text-[#64748B]">
+                {isUrdu ? 'فارم منیجرز کے موبائل پر فوری الارم الرٹس' : 'Instant SMS and WhatsApp alerts for farm managers'}
+              </p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="p-3.5 rounded-lg border border-[#E2E8F0] bg-slate-50/50 flex items-start justify-between">
               <div>
-                <p className="text-xs font-semibold text-[#172033]">High Mortality Alerts</p>
+                <p className="text-xs font-semibold text-[#172033]">
+                  {isUrdu ? 'اموات کی شرح الرٹ' : 'High Mortality Alerts'}
+                </p>
                 <p className="text-[11px] text-[#64748B] mt-0.5">Instant SMS if mortality &gt; 0.05%</p>
               </div>
               <input
@@ -236,7 +250,9 @@ export default function SettingsView() {
 
             <div className="p-3.5 rounded-lg border border-[#E2E8F0] bg-slate-50/50 flex items-start justify-between">
               <div>
-                <p className="text-xs font-semibold text-[#172033]">Evening Production Summary</p>
+                <p className="text-xs font-semibold text-[#172033]">
+                  {isUrdu ? 'شام کا پیداواری خلاصہ' : 'Evening Production Summary'}
+                </p>
                 <p className="text-[11px] text-[#64748B] mt-0.5">Automated WhatsApp dispatch at 8 PM</p>
               </div>
               <input
@@ -249,7 +265,9 @@ export default function SettingsView() {
 
             <div className="p-3.5 rounded-lg border border-[#E2E8F0] bg-slate-50/50 flex items-start justify-between">
               <div>
-                <p className="text-xs font-semibold text-[#172033]">Feed Line Jam Alarms</p>
+                <p className="text-xs font-semibold text-[#172033]">
+                  {isUrdu ? 'موٹر یا لائن جام کا الارم' : 'Feed Line Jam Alarms'}
+                </p>
                 <p className="text-[11px] text-[#64748B] mt-0.5">Audio and mobile alert on motor trip</p>
               </div>
               <input
@@ -273,7 +291,7 @@ export default function SettingsView() {
             className="flex items-center space-x-1.5 px-4 py-2.5 bg-[#0D9488] hover:bg-[#0b7d73] text-white text-xs font-semibold rounded-lg shadow-xs transition-colors cursor-pointer"
           >
             <Save className="w-4 h-4" />
-            <span>Save Configuration</span>
+            <span>{isUrdu ? 'کنفیگریشن محفوظ کریں' : 'Save Configuration'}</span>
           </button>
         </div>
       </form>

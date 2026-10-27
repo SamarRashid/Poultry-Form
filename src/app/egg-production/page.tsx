@@ -1,16 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Egg, Plus, CheckCircle2, Package, Layers } from 'lucide-react';
-import { eggProduction7Days } from '@/data/mockFarmData';
+import { eggProduction7Days } from '@/data/farmData';
 import { formatNumber } from '@/lib/utils';
 import EggProductionChart from '@/components/dashboard/EggProductionChart';
+import QuickActionModal from '@/components/modals/QuickActionModal';
+import { useLanguage } from '@/context/LanguageContext';
 
-interface EggProductionViewProps {
-  onOpenLogModal: () => void;
-}
-
-export default function EggProductionView({ onOpenLogModal }: EggProductionViewProps) {
+export default function EggProductionPage() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const { isUrdu } = useLanguage();
   const latest = eggProduction7Days[eggProduction7Days.length - 1];
   const cratesPacked = Math.floor(latest.total / 360);
   const remainingEggs = latest.total % 360;
@@ -24,21 +24,23 @@ export default function EggProductionView({ onOpenLogModal }: EggProductionViewP
             <Egg className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-[#0F172A]">
-              Egg Production & Harvest Intelligence
-            </h2>
+            <h1 className="text-xl font-bold tracking-tight text-[#0F172A]">
+              {isUrdu ? 'انڈوں کی پیداوار اور ہارویسٹ ریکارڈ' : 'Egg Production & Harvest Intelligence'}
+            </h1>
             <p className="text-xs text-[#64748B] font-normal mt-0.5">
-              Automated grading, crates packaging for wholesale dispatch, and laying curve benchmarks
+              {isUrdu
+                ? 'خودکار گریڈنگ، ہول سیل ترسیل کے کریٹس اور شیڈ وار پیداوار کے تفصیلی اعداد و شمار'
+                : 'Automated grading, crates packaging for wholesale dispatch, and laying curve benchmarks'}
             </p>
           </div>
         </div>
 
         <button
-          onClick={onOpenLogModal}
+          onClick={() => setModalOpen(true)}
           className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#0D9488] hover:bg-[#0f766e] text-white text-xs font-semibold rounded-lg shadow-sm transition-colors cursor-pointer shrink-0"
         >
           <Plus className="w-4 h-4" />
-          <span>Record Harvest Batch</span>
+          <span>{isUrdu ? 'نیا بیچ درج کریں' : 'Record Harvest Batch'}</span>
         </button>
       </div>
 
@@ -49,7 +51,7 @@ export default function EggProductionView({ onOpenLogModal }: EggProductionViewP
           <div>
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-[#64748B]">
-                Today Harvest
+                {isUrdu ? 'آج کا کلیکشن' : 'Today Harvest'}
               </span>
               <div className="p-1.5 rounded-lg bg-teal-50 text-[#0D9488]">
                 <Egg className="w-4 h-4" />
@@ -60,13 +62,15 @@ export default function EggProductionView({ onOpenLogModal }: EggProductionViewP
                 {formatNumber(latest.total)}
               </span>
               <span className="text-xs font-medium text-[#64748B] uppercase">
-                eggs
+                {isUrdu ? 'انڈے' : 'eggs'}
               </span>
             </div>
-            <p className="mt-1 text-xs text-[#64748B]">Collected across 3 sheds</p>
+            <p className="mt-1 text-xs text-[#64748B]">
+              {isUrdu ? '3 شیڈز سے کلیکشن' : 'Collected across 3 sheds'}
+            </p>
           </div>
           <div className="mt-3 pt-2.5 border-t border-[#E2E8F0] flex items-center justify-between text-xs">
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-medium bg-[#0D9488]/10 text-[#0D9488]">
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-[#0D9488]/10 text-[#0D9488]">
               83.0% Laying Rate
             </span>
           </div>
@@ -77,7 +81,7 @@ export default function EggProductionView({ onOpenLogModal }: EggProductionViewP
           <div>
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-[#64748B]">
-                Grade A Table Eggs
+                {isUrdu ? 'گریڈ-اے کمرشل انڈے' : 'Grade A Table Eggs'}
               </span>
               <div className="p-1.5 rounded-lg bg-slate-100 text-[#0F172A]">
                 <CheckCircle2 className="w-4 h-4" />
@@ -91,7 +95,9 @@ export default function EggProductionView({ onOpenLogModal }: EggProductionViewP
                 97.8%
               </span>
             </div>
-            <p className="mt-1 text-xs text-[#64748B]">Wholesale & export quality</p>
+            <p className="mt-1 text-xs text-[#64748B]">
+              {isUrdu ? 'اعلیٰ کوالٹی برائے ہول سیل' : 'Wholesale & export quality'}
+            </p>
           </div>
           <div className="mt-3 pt-2.5 border-t border-[#E2E8F0] flex items-center justify-between text-xs">
             <span className="text-[11px] text-[#64748B]">Standard Grade-A yield</span>
@@ -103,7 +109,7 @@ export default function EggProductionView({ onOpenLogModal }: EggProductionViewP
           <div>
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-[#64748B]">
-                Crates Packaged
+                {isUrdu ? 'تیار کریٹس' : 'Crates Packaged'}
               </span>
               <div className="p-1.5 rounded-lg bg-slate-100 text-[#0F172A]">
                 <Package className="w-4 h-4" />
@@ -114,7 +120,7 @@ export default function EggProductionView({ onOpenLogModal }: EggProductionViewP
                 {cratesPacked}
               </span>
               <span className="text-xs font-medium text-[#64748B] uppercase">
-                crates
+                {isUrdu ? 'کریٹس' : 'crates'}
               </span>
             </div>
             <p className="mt-1 text-xs text-[#64748B]">+ {remainingEggs} loose eggs</p>
@@ -129,7 +135,7 @@ export default function EggProductionView({ onOpenLogModal }: EggProductionViewP
           <div>
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-[#64748B]">
-                Damaged / Breakage
+                {isUrdu ? 'ٹوٹے ہوئے انڈے' : 'Damaged / Breakage'}
               </span>
               <div className="p-1.5 rounded-lg bg-slate-100 text-[#0F172A]">
                 <Layers className="w-4 h-4" />
@@ -140,7 +146,7 @@ export default function EggProductionView({ onOpenLogModal }: EggProductionViewP
                 {latest.damagedEggs}
               </span>
               <span className="text-xs font-medium text-[#64748B] uppercase">
-                eggs
+                {isUrdu ? 'انڈے' : 'eggs'}
               </span>
             </div>
             <p className="mt-1 text-xs text-[#64748B]">0.25% (under 0.5% tolerance)</p>
@@ -156,11 +162,11 @@ export default function EggProductionView({ onOpenLogModal }: EggProductionViewP
 
       {/* Shed Breakdown Table */}
       <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E2E8F0] shadow-xs">
-        <h3 className="text-base font-semibold text-[#0F172A] mb-0.5">
-          Shed-Wise Collection & Flock Productivity
-        </h3>
+        <h2 className="text-base font-semibold text-[#0F172A] mb-0.5">
+          {isUrdu ? 'شیڈ وار انڈوں کا کلیکشن اور پیداواری شرح' : 'Shed-Wise Collection & Flock Productivity'}
+        </h2>
         <p className="text-xs text-[#64748B] mb-3">
-          Detailed metrics from morning and evening egg conveyor belt logs
+          {isUrdu ? 'صبح اور شام کے کنویئر بیلٹ کے تصدیق شدہ ریکارڈز' : 'Detailed metrics from morning and evening egg conveyor belt logs'}
         </p>
 
         <div className="overflow-x-auto">
@@ -216,6 +222,12 @@ export default function EggProductionView({ onOpenLogModal }: EggProductionViewP
           </table>
         </div>
       </div>
+
+      {/* Quick Action Modal for Logging */}
+      <QuickActionModal
+        actionType={modalOpen ? 'record-eggs' : null}
+        onClose={() => setModalOpen(false)}
+      />
     </div>
   );
 }

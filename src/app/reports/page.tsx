@@ -12,8 +12,8 @@ import {
   Eye,
   TrendingUp,
   ShieldCheck,
-  Building2,
 } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface ReportItem {
   id: string;
@@ -27,7 +27,8 @@ interface ReportItem {
   generatedDate: string;
 }
 
-export default function ReportsView() {
+export default function ReportsPage() {
+  const { isUrdu } = useLanguage();
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'production' | 'financial' | 'feed' | 'biosecurity'>('all');
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
@@ -122,11 +123,13 @@ export default function ReportsView() {
             <BarChart3 className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-[#172033]">
-              Executive Farm Reports & Audit Statements
-            </h2>
+            <h1 className="text-lg font-bold text-[#172033]">
+              {isUrdu ? 'ایگزیکٹو فارم رپورٹس اور آڈٹ بیانات' : 'Executive Farm Reports & Audit Statements'}
+            </h1>
             <p className="text-xs text-[#64748B]">
-              Automated intelligence statements for production cycles, feed efficiency, and tax audits
+              {isUrdu
+                ? 'پیداواری سائیکل، خوراک کی کارکردگی اور ٹیکس آڈٹ کے خودکار بیانات'
+                : 'Automated intelligence statements for production cycles, feed efficiency, and tax audits'}
             </p>
           </div>
         </div>
@@ -137,14 +140,14 @@ export default function ReportsView() {
             className="flex items-center space-x-1.5 px-3.5 py-2 bg-white hover:bg-slate-50 text-[#172033] text-xs font-semibold rounded-lg border border-[#E2E8F0] shadow-xs transition-colors cursor-pointer"
           >
             <Printer className="w-4 h-4 text-[#64748B]" />
-            <span>Print Summary</span>
+            <span>{isUrdu ? 'پرنٹ خلاصہ' : 'Print Summary'}</span>
           </button>
           <button
             onClick={() => alert('Exporting all operational reports bundle (ZIP)...')}
             className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#0D9488] hover:bg-[#0b7d73] text-white text-xs font-semibold rounded-lg shadow-xs transition-colors cursor-pointer"
           >
             <Download className="w-4 h-4" />
-            <span>Export All (PDF)</span>
+            <span>{isUrdu ? 'تمام ڈاؤنلوڈ کریں (PDF)' : 'Export All (PDF)'}</span>
           </button>
         </div>
       </div>
@@ -153,7 +156,7 @@ export default function ReportsView() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-4 bg-white rounded-xl border border-[#E2E8F0] shadow-xs">
           <div className="flex items-center justify-between text-xs text-[#64748B] font-medium">
-            <span>Available Reports</span>
+            <span>{isUrdu ? 'دستیاب رپورٹس' : 'Available Reports'}</span>
             <FileText className="w-4 h-4 text-[#0D9488]" />
           </div>
           <div className="mt-2 text-2xl font-bold text-[#172033]">6 Reports</div>
@@ -162,7 +165,7 @@ export default function ReportsView() {
 
         <div className="p-4 bg-white rounded-xl border border-[#E2E8F0] shadow-xs">
           <div className="flex items-center justify-between text-xs text-[#64748B] font-medium">
-            <span>Audit Status</span>
+            <span>{isUrdu ? 'آڈٹ کی حیثیت' : 'Audit Status'}</span>
             <ShieldCheck className="w-4 h-4 text-[#0D9488]" />
           </div>
           <div className="mt-2 text-2xl font-bold text-[#172033]">100% Verified</div>
@@ -171,7 +174,7 @@ export default function ReportsView() {
 
         <div className="p-4 bg-white rounded-xl border border-[#E2E8F0] shadow-xs">
           <div className="flex items-center justify-between text-xs text-[#64748B] font-medium">
-            <span>Production Cycle</span>
+            <span>{isUrdu ? 'پیداواری پیداوار' : 'Production Cycle'}</span>
             <TrendingUp className="w-4 h-4 text-[#0D9488]" />
           </div>
           <div className="mt-2 text-2xl font-bold text-[#172033]">92.8% Yield</div>
@@ -180,7 +183,7 @@ export default function ReportsView() {
 
         <div className="p-4 bg-white rounded-xl border border-[#E2E8F0] shadow-xs">
           <div className="flex items-center justify-between text-xs text-[#64748B] font-medium">
-            <span>Fiscal Month</span>
+            <span>{isUrdu ? 'مالیاتی مہینہ' : 'Fiscal Month'}</span>
             <Calendar className="w-4 h-4 text-[#0D9488]" />
           </div>
           <div className="mt-2 text-2xl font-bold text-[#172033]">October 2026</div>
@@ -191,11 +194,11 @@ export default function ReportsView() {
       {/* 3. Filter Navigation Tabs */}
       <div className="flex items-center space-x-2 overflow-x-auto pb-1">
         {[
-          { key: 'all', label: 'All Statements' },
-          { key: 'production', label: 'Production & Harvest' },
-          { key: 'feed', label: 'Feed & FCR Ratios' },
-          { key: 'financial', label: 'Financial & Ledger' },
-          { key: 'biosecurity', label: 'Biosecurity & Health' },
+          { key: 'all', label: isUrdu ? 'تمام بیانات' : 'All Statements' },
+          { key: 'production', label: isUrdu ? 'پیداوار اور ہارویسٹ' : 'Production & Harvest' },
+          { key: 'feed', label: isUrdu ? 'خوراک اور ایف سی آر' : 'Feed & FCR Ratios' },
+          { key: 'financial', label: isUrdu ? 'مالیاتی کھاتہ' : 'Financial & Ledger' },
+          { key: 'biosecurity', label: isUrdu ? 'حفاظت اور ویکسین' : 'Biosecurity & Health' },
         ].map((tab) => (
           <button
             key={tab.key}

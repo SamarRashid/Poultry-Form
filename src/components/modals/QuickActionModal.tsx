@@ -29,7 +29,7 @@ export default function QuickActionModal({
   const [supplierName, setSupplierName] = useState('Al-Rehman Grain Traders');
 
   const [usageShed, setUsageShed] = useState('Shed 1');
-  const [feedType, setFeedType] = useState('Layer Feed (Phase-1 Mash)');
+  const [feedType, setFeedType] = useState('Commercial Layer Mash');
   const [usageKg, setUsageKg] = useState('300');
 
   const [expenseCategory, setExpenseCategory] = useState('Utilities & Power');
@@ -96,28 +96,24 @@ export default function QuickActionModal({
           title: 'Log Daily Egg Harvest',
           subtitle: 'Record morning and evening crate counts by shed unit',
           icon: Egg,
-          gradient: 'from-emerald-500 to-teal-600',
         };
       case 'add-feed':
         return {
           title: 'Receive Bulk Grain Delivery',
           subtitle: 'Log incoming corn, soya, or mash into storage silos',
           icon: PackagePlus,
-          gradient: 'from-amber-500 to-orange-600',
         };
       case 'record-feed-usage':
         return {
           title: 'Dispense Feed Rations',
           subtitle: 'Log automated auger feed distributions to flocks',
           icon: Wheat,
-          gradient: 'from-blue-500 to-indigo-600',
         };
       case 'add-expense':
         return {
           title: 'Post Farm Operating Expense',
           subtitle: 'Record fuel, medicine, labor, and maintenance in PKR',
           icon: Receipt,
-          gradient: 'from-rose-500 to-pink-600',
         };
     }
   };
@@ -129,33 +125,31 @@ export default function QuickActionModal({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs transition-opacity"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs transition-opacity"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all animate-in zoom-in-95"
+        className="relative w-full max-w-lg bg-white rounded-xl shadow-2xl border border-[#E2E8F0] overflow-hidden transform transition-all animate-in zoom-in-95"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-slate-900 text-white p-5 border-b border-slate-800">
+        <div className="bg-[#073330] text-white p-5 border-b border-[#0D4A47]">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div
-                className={`p-2.5 bg-gradient-to-br ${meta.gradient} rounded-xl text-white shadow-md`}
-              >
+              <div className="p-2.5 bg-teal-500/20 text-[#2DD4BF] border border-teal-400/30 rounded-lg">
                 <IconComponent className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-black text-white tracking-tight">
+                <h3 className="text-base font-bold text-white tracking-tight">
                   {meta.title}
                 </h3>
-                <p className="text-xs text-slate-300 font-medium">{meta.subtitle}</p>
+                <p className="text-xs text-teal-200/70 font-normal">{meta.subtitle}</p>
               </div>
             </div>
             <button
               onClick={onClose}
               aria-label="Close dialog"
-              className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
+              className="p-1.5 text-teal-200/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -164,35 +158,35 @@ export default function QuickActionModal({
 
         {submittedNotice ? (
           <div className="p-8 text-center space-y-3">
-            <div className="w-12 h-12 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-xs">
+            <div className="w-12 h-12 mx-auto rounded-xl bg-teal-50 text-[#0D9488] border border-teal-100 flex items-center justify-center">
               <CheckCircle className="w-6 h-6" />
             </div>
-            <h4 className="text-sm font-black text-slate-900">Record Successfully Logged</h4>
-            <p className="text-xs text-slate-500 max-w-sm mx-auto font-medium">{submittedNotice}</p>
-            <p className="text-[11px] text-emerald-600 font-bold">Updating dashboard telemetry...</p>
+            <h4 className="text-sm font-bold text-[#172033]">Record Successfully Logged</h4>
+            <p className="text-xs text-[#64748B] max-w-sm mx-auto font-medium">{submittedNotice}</p>
+            <p className="text-[11px] text-[#0D9488] font-semibold">Updating dashboard telemetry...</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4">
             {/* 1. Egg Harvest */}
             {actionType === 'record-eggs' && (
               <>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#172033] mb-1.5">
                     Select Shed Unit
                   </label>
                   <select
                     value={shed}
                     onChange={(e) => setShed(e.target.value)}
-                    className="w-full text-xs rounded-xl border border-slate-200 p-2.5 bg-white text-slate-900 font-semibold focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                    className="w-full text-xs rounded-lg border border-[#E2E8F0] p-2.5 bg-white text-[#172033] font-medium focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent transition-all"
                   >
                     <option value="Shed 1 (EC Closed - Lohmann Brown)">Shed 1 (EC Closed - Lohmann Brown - 5,000 birds)</option>
                     <option value="Shed 2 (EC Closed - Hy-Line W-36)">Shed 2 (EC Closed - Hy-Line W-36 - 5,100 birds)</option>
                     <option value="Shed 3 (Semi-Closed - Novogen Brown)">Shed 3 (Semi-Closed - Novogen Brown - 4,900 birds)</option>
                   </select>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#172033] mb-1.5">
                       Good Eggs Collected
                     </label>
                     <input
@@ -201,11 +195,11 @@ export default function QuickActionModal({
                       value={eggCount}
                       onChange={(e) => setEggCount(e.target.value)}
                       placeholder="e.g. 4280"
-                      className="w-full text-xs rounded-xl border border-slate-200 p-2.5 font-bold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                      className="w-full text-xs rounded-lg border border-[#E2E8F0] p-2.5 font-medium text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent transition-all"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#172033] mb-1.5">
                       Damaged / Cracked
                     </label>
                     <input
@@ -214,7 +208,7 @@ export default function QuickActionModal({
                       value={damagedCount}
                       onChange={(e) => setDamagedCount(e.target.value)}
                       placeholder="e.g. 18"
-                      className="w-full text-xs rounded-xl border border-slate-200 p-2.5 font-bold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                      className="w-full text-xs rounded-lg border border-[#E2E8F0] p-2.5 font-medium text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent transition-all"
                     />
                   </div>
                 </div>
@@ -225,24 +219,24 @@ export default function QuickActionModal({
             {actionType === 'add-feed' && (
               <>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#172033] mb-1.5">
                     Feed Raw Material
                   </label>
                   <select
                     value={feedMaterial}
                     onChange={(e) => setFeedMaterial(e.target.value)}
-                    className="w-full text-xs rounded-xl border border-slate-200 p-2.5 bg-white text-slate-900 font-semibold focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                    className="w-full text-xs rounded-lg border border-[#E2E8F0] p-2.5 bg-white text-[#172033] font-medium focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent transition-all"
                   >
                     <option value="Maize (Yellow Corn #1)">Maize (Yellow Corn #1)</option>
                     <option value="Soybean Meal (48% High CP)">Soybean Meal (48% High CP)</option>
                     <option value="Rice Bran (De-oiled)">Rice Bran (De-oiled)</option>
-                    <option value="Layer Feed (Phase-1 Mash)">Layer Feed (Phase-1 Mash)</option>
+                    <option value="Commercial Layer Mash">Commercial Layer Mash</option>
                     <option value="Calcium Carbonate / Coarse Grit">Calcium Carbonate / Coarse Grit</option>
                   </select>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#172033] mb-1.5">
                       Quantity (kg)
                     </label>
                     <input
@@ -251,11 +245,11 @@ export default function QuickActionModal({
                       value={receivedKg}
                       onChange={(e) => setReceivedKg(e.target.value)}
                       placeholder="e.g. 5000"
-                      className="w-full text-xs rounded-xl border border-slate-200 p-2.5 font-bold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                      className="w-full text-xs rounded-lg border border-[#E2E8F0] p-2.5 font-medium text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent transition-all"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#172033] mb-1.5">
                       Supplier Name
                     </label>
                     <input
@@ -264,7 +258,7 @@ export default function QuickActionModal({
                       value={supplierName}
                       onChange={(e) => setSupplierName(e.target.value)}
                       placeholder="e.g. Al-Rehman Grain Traders"
-                      className="w-full text-xs rounded-xl border border-slate-200 p-2.5 font-bold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                      className="w-full text-xs rounded-lg border border-[#E2E8F0] p-2.5 font-medium text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent transition-all"
                     />
                   </div>
                 </div>
@@ -274,15 +268,15 @@ export default function QuickActionModal({
             {/* 3. Feed Usage */}
             {actionType === 'record-feed-usage' && (
               <>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#172033] mb-1.5">
                       Target Shed
                     </label>
                     <select
                       value={usageShed}
                       onChange={(e) => setUsageShed(e.target.value)}
-                      className="w-full text-xs rounded-xl border border-slate-200 p-2.5 bg-white text-slate-900 font-semibold focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                      className="w-full text-xs rounded-lg border border-[#E2E8F0] p-2.5 bg-white text-[#172033] font-medium focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent transition-all"
                     >
                       <option value="Shed 1">Shed 1 (5,000 birds)</option>
                       <option value="Shed 2">Shed 2 (5,100 birds)</option>
@@ -290,7 +284,7 @@ export default function QuickActionModal({
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#172033] mb-1.5">
                       Quantity (kg)
                     </label>
                     <input
@@ -299,20 +293,20 @@ export default function QuickActionModal({
                       value={usageKg}
                       onChange={(e) => setUsageKg(e.target.value)}
                       placeholder="e.g. 300"
-                      className="w-full text-xs rounded-xl border border-slate-200 p-2.5 font-bold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                      className="w-full text-xs rounded-lg border border-[#E2E8F0] p-2.5 font-medium text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent transition-all"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#172033] mb-1.5">
                     Feed Formulation
                   </label>
                   <select
                     value={feedType}
                     onChange={(e) => setFeedType(e.target.value)}
-                    className="w-full text-xs rounded-xl border border-slate-200 p-2.5 bg-white text-slate-900 font-semibold focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                    className="w-full text-xs rounded-lg border border-[#E2E8F0] p-2.5 bg-white text-[#172033] font-medium focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent transition-all"
                   >
-                    <option value="Layer Feed (Phase-1 Mash)">Layer Feed (Phase-1 Mash)</option>
+                    <option value="Commercial Layer Mash">Commercial Layer Mash</option>
                     <option value="Custom Corn-Soya High Energy Ration">Custom Corn-Soya High Energy Ration</option>
                     <option value="Calcium & Mineral Top-Dressing">Calcium & Mineral Top-Dressing</option>
                   </select>
@@ -323,15 +317,15 @@ export default function QuickActionModal({
             {/* 4. Add Expense */}
             {actionType === 'add-expense' && (
               <>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#172033] mb-1.5">
                       Category
                     </label>
                     <select
                       value={expenseCategory}
                       onChange={(e) => setExpenseCategory(e.target.value)}
-                      className="w-full text-xs rounded-xl border border-slate-200 p-2.5 bg-white text-slate-900 font-semibold focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                      className="w-full text-xs rounded-lg border border-[#E2E8F0] p-2.5 bg-white text-[#172033] font-medium focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent transition-all"
                     >
                       <option value="Utilities & Power">Utilities & Power</option>
                       <option value="Biosecurity & Medicine">Biosecurity & Medicine</option>
@@ -341,7 +335,7 @@ export default function QuickActionModal({
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#172033] mb-1.5">
                       Amount (PKR)
                     </label>
                     <input
@@ -350,12 +344,12 @@ export default function QuickActionModal({
                       value={expenseAmount}
                       onChange={(e) => setExpenseAmount(e.target.value)}
                       placeholder="e.g. 48500"
-                      className="w-full text-xs rounded-xl border border-slate-200 p-2.5 font-bold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                      className="w-full text-xs rounded-lg border border-[#E2E8F0] p-2.5 font-medium text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent transition-all"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#172033] mb-1.5">
                     Disbursement Description
                   </label>
                   <input
@@ -364,24 +358,24 @@ export default function QuickActionModal({
                     value={expenseDesc}
                     onChange={(e) => setExpenseDesc(e.target.value)}
                     placeholder="e.g. Generator diesel fuel for backup ventilation"
-                    className="w-full text-xs rounded-xl border border-slate-200 p-2.5 font-bold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
+                    className="w-full text-xs rounded-lg border border-[#E2E8F0] p-2.5 font-medium text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#0D9488] focus:border-transparent transition-all"
                   />
                 </div>
               </>
             )}
 
             {/* Footer */}
-            <div className="pt-3.5 border-t border-slate-100 flex items-center justify-end space-x-2.5">
+            <div className="pt-3.5 border-t border-[#E2E8F0] flex items-center justify-end space-x-2.5">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer"
+                className="px-4 py-2 text-xs font-semibold text-[#64748B] hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold rounded-xl shadow-md shadow-emerald-600/30 transition-all cursor-pointer"
+                className="px-4 py-2 bg-[#0D9488] hover:bg-[#0b7d73] text-white text-xs font-semibold rounded-lg shadow-xs transition-colors cursor-pointer"
               >
                 Submit Record
               </button>

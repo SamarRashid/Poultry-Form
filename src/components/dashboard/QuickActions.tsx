@@ -3,35 +3,38 @@
 import React from 'react';
 import { Egg, Boxes, Wheat, Receipt, ArrowRight } from 'lucide-react';
 import { QuickActionType } from '@/components/modals/QuickActionModal';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface QuickActionsProps {
   onTriggerAction: (action: QuickActionType) => void;
 }
 
 export default function QuickActions({ onTriggerAction }: QuickActionsProps) {
+  const { t } = useLanguage();
+
   const actions = [
     {
       id: 'record-eggs' as QuickActionType,
-      label: 'Record Egg Production',
-      desc: 'Morning & evening crates by shed',
+      label: t.qaEggTitle,
+      desc: t.qaEggDesc,
       icon: Egg,
     },
     {
       id: 'add-feed' as QuickActionType,
-      label: 'Add Feed Stock',
-      desc: 'Receive grain or premix delivery',
+      label: t.qaAddFeedTitle,
+      desc: t.qaAddFeedDesc,
       icon: Boxes,
     },
     {
       id: 'record-feed-usage' as QuickActionType,
-      label: 'Record Feed Usage',
-      desc: 'Dispense to automated hoppers',
+      label: t.qaFeedUsageTitle,
+      desc: t.qaFeedUsageDesc,
       icon: Wheat,
     },
     {
       id: 'add-expense' as QuickActionType,
-      label: 'Add Expense',
-      desc: 'Log operating disbursements',
+      label: t.qaExpenseTitle,
+      desc: t.qaExpenseDesc,
       icon: Receipt,
     },
   ];
@@ -41,14 +44,14 @@ export default function QuickActions({ onTriggerAction }: QuickActionsProps) {
       <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#E2E8F0]">
         <div>
           <h2 className="text-base font-semibold text-[#172033] tracking-tight">
-            Quick Operational Entries
+            {t.qaTitle}
           </h2>
           <p className="text-xs text-[#64748B] font-normal">
-            Direct telemetry logging and commercial entries
+            {t.qaSubtitle}
           </p>
         </div>
         <span className="text-[11px] font-medium text-[#0D9488] bg-[#0D9488]/10 px-2 py-0.5 rounded-full border border-[#0D9488]/20">
-          Fast Actions
+          {t.qaTag}
         </span>
       </div>
 

@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Plus, Egg, Wheat, Receipt, Boxes, ChevronDown } from 'lucide-react';
 import { QuickActionType } from '@/components/modals/QuickActionModal';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface DashboardHeadingProps {
   onTriggerQuickAction: (action: QuickActionType) => void;
@@ -11,6 +12,7 @@ interface DashboardHeadingProps {
 export default function DashboardHeading({
   onTriggerQuickAction,
 }: DashboardHeadingProps) {
+  const { t, isUrdu } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -34,10 +36,10 @@ export default function DashboardHeading({
       {/* Title & Subtitle */}
       <div className="space-y-1">
         <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#0F172A]">
-          Operations Dashboard
+          {t.dashTitle}
         </h1>
         <p className="text-xs text-[#64748B] font-normal">
-          Real-time commercial layer yield, flock performance, and feed telemetry.
+          {t.dashSubtitle}
         </p>
       </div>
 
@@ -49,7 +51,7 @@ export default function DashboardHeading({
           className="inline-flex items-center space-x-1.5 px-3.5 py-2 bg-[#0D9488] hover:bg-[#0f766e] text-white text-xs font-semibold rounded-lg shadow-sm transition-colors cursor-pointer"
         >
           <Plus className="w-4 h-4" />
-          <span>Quick Entry</span>
+          <span>{t.quickEntry}</span>
           <ChevronDown className="w-3.5 h-3.5 opacity-80 ml-0.5" />
         </button>
 

@@ -1,20 +1,25 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Boxes, PackagePlus, AlertTriangle, CheckCircle2, AlertCircle } from 'lucide-react';
-import { initialFeedInventory } from '@/data/mockFarmData';
+import { initialFeedInventory } from '@/data/farmData';
 import { deriveFeedStatus, formatNumber, formatPKR } from '@/lib/utils';
+import QuickActionModal from '@/components/modals/QuickActionModal';
+import { useLanguage } from '@/context/LanguageContext';
 
-interface FeedInventoryViewProps {
-  onOpenAddFeedModal: () => void;
-}
+export default function FeedInventoryPage() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const { isUrdu } = useLanguage();
 
-export default function FeedInventoryView({ onOpenAddFeedModal }: FeedInventoryViewProps) {
   const totalStockKg = initialFeedInventory.reduce((sum, item) => sum + item.availableStockKg, 0);
   const totalValuation = initialFeedInventory.reduce(
     (sum, item) => sum + item.availableStockKg * (item.costPerKgPKR || 80),
     0
   );
+  const lowStockCount = initialFeedInventory.filter((item) => {
+    const s = deriveFeedStatus(item.availableStockKg, item.minimumStockKg);
+    return s === 'Low Stock' || s === 'Critical' || s === 'Out of Stock';
+  }).length;
 
   return (
     <div className="space-y-5 animate-in fade-in duration-200">
@@ -25,30 +30,32 @@ export default function FeedInventoryView({ onOpenAddFeedModal }: FeedInventoryV
             <Boxes className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-[#0F172A]">
-              Feed Inventory & Silo Capacity ERP
-            </h2>
+            <h1 className="text-xl font-bold tracking-tight text-[#0F172A]">
+              {isUrdu ? 'خوراک کے سائلو کا اسٹاک اور راشن مینجمنٹ' : 'Feed Silo Stock & Rations Management'}
+            </h1>
             <p className="text-xs text-[#64748B] font-normal mt-0.5">
-              Raw material silos, automated ration stocks, safety buffers, and procurement orders
+              {isUrdu
+                ? 'اناج کے گودام، پری مکس کے ذخائر، سپلائرز کے ریکارڈز اور روزمرہ کی کھپت'
+                : 'Raw grain storage silos, premix inventories, vendor receipts, and automated feeding telemetry'}
             </p>
           </div>
         </div>
 
         <button
-          onClick={onOpenAddFeedModal}
+          onClick={() => setModalOpen(true)}
           className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#0D9488] hover:bg-[#0f766e] text-white text-xs font-semibold rounded-lg shadow-sm transition-colors cursor-pointer shrink-0"
         >
           <PackagePlus className="w-4 h-4" />
-          <span>Receive Grain Delivery</span>
+          <span>{isUrdu ? 'ڈیلیوری وصول کریں' : 'Receive Grain Delivery'}</span>
         </button>
       </div>
 
-      {/* Silo Summary Cards */}
+      {/* 3 Silo KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
           <div>
             <span className="text-xs font-medium text-[#64748B] block">
-              Total Silo Stock
+              {isUrdu ? 'مجموعی دستیاب اسٹاک' : 'Total Feed In Storage'}
             </span>
             <div className="mt-2 flex items-baseline space-x-1.5">
               <span className="text-2xl font-bold tracking-tight text-[#0F172A]">
@@ -57,31 +64,31 @@ export default function FeedInventoryView({ onOpenAddFeedModal }: FeedInventoryV
               <span className="text-xs font-medium text-[#64748B] uppercase">KG</span>
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-[#E2E8F0] text-xs text-[#64748B]">
-            6 Raw Material Silos Active
+          <div className="mt-3 pt-2.5 border-t border-[#E2E8F0] text-xs">
+            <span className="text-[11px] text-[#64748B]">Across 6 central silo hoppers</span>
           </div>
         </div>
 
         <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
           <div>
             <span className="text-xs font-medium text-[#64748B] block">
-              Inventory Valuation
+              {isUrdu ? 'اسٹاک کی کل مالیاتی مالیت' : 'Estimated Stock Valuation'}
             </span>
             <div className="mt-2 flex items-baseline space-x-1.5">
-              <span className="text-2xl font-bold tracking-tight text-[#0D9488]">
+              <span className="text-2xl font-bold tracking-tight text-[#0F172A]">
                 {formatPKR(totalValuation)}
               </span>
             </div>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-[#E2E8F0] text-xs text-[#64748B]">
-            At Current Wholesale Procurement Rates
+          <div className="mt-3 pt-2.5 border-t border-[#E2E8F0] text-xs">
+            <span className="text-[11px] text-[#64748B]">Current procurement value</span>
           </div>
         </div>
 
         <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E2E8F0] shadow-xs flex flex-col justify-between">
           <div>
             <span className="text-xs font-medium text-[#64748B] block">
-              Days of Autonomous Feed
+              {isUrdu ? 'خودمختار خوراک کی مدت' : 'Days of Autonomous Feed'}
             </span>
             <div className="mt-2 flex items-baseline space-x-1.5">
               <span className="text-2xl font-bold tracking-tight text-[#0F172A]">18.4</span>
@@ -98,11 +105,11 @@ export default function FeedInventoryView({ onOpenAddFeedModal }: FeedInventoryV
 
       {/* Full Raw Materials Table */}
       <div className="p-4 sm:p-5 bg-white rounded-xl border border-[#E2E8F0] shadow-xs">
-        <h3 className="text-base font-semibold text-[#0F172A] mb-0.5">
-          Raw Materials & Pre-Mix Stock Levels
-        </h3>
+        <h2 className="text-base font-semibold text-[#0F172A] mb-0.5">
+          {isUrdu ? 'خام مال اور پری مکس کا اسٹاک لیول' : 'Raw Materials & Pre-Mix Stock Levels'}
+        </h2>
         <p className="text-xs text-[#64748B] mb-3">
-          Visual silo fill levels, safety thresholds, unit costs, and supplier info
+          {isUrdu ? 'سائلو کی شرح، محفوظ حد، قیمت فی کلو اور سپلائر کی تفصیلات' : 'Visual silo fill levels, safety thresholds, unit costs, and supplier info'}
         </p>
 
         <div className="overflow-x-auto">
@@ -164,18 +171,13 @@ export default function FeedInventoryView({ onOpenAddFeedModal }: FeedInventoryV
                       {status === 'Low Stock' && (
                         <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-[#D97706]/10 text-[#D97706] border border-[#D97706]/20">
                           <AlertTriangle className="w-3 h-3 mr-1 text-[#D97706]" />
-                          Low Stock
+                          Reorder Alert
                         </span>
                       )}
                       {status === 'Critical' && (
                         <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-[#DC2626]/10 text-[#DC2626] border border-[#DC2626]/20">
                           <AlertCircle className="w-3 h-3 mr-1 text-[#DC2626]" />
-                          Critical
-                        </span>
-                      )}
-                      {status === 'Out of Stock' && (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-700 border border-slate-300">
-                          Out of Stock
+                          Critical Low
                         </span>
                       )}
                     </td>
@@ -186,6 +188,12 @@ export default function FeedInventoryView({ onOpenAddFeedModal }: FeedInventoryV
           </table>
         </div>
       </div>
+
+      {/* Quick Action Modal for Grain Delivery */}
+      <QuickActionModal
+        actionType={modalOpen ? 'add-feed' : null}
+        onClose={() => setModalOpen(false)}
+      />
     </div>
   );
 }

@@ -15,7 +15,7 @@ export const farmProfile = {
   owner: 'Admin',
   role: 'Farm Administrator',
   avatarInitials: 'AD',
-  location: 'Okara Commercial Layer Facility',
+  location: 'Commercial Layer Facility',
   farmType: 'Automated Commercial Layer Facility',
   totalCapacity: 18000,
   activeBirds: 15000,
@@ -38,7 +38,7 @@ export const initialKpis: FarmKpiSummary = {
   crackedRatePercent: 0.25,
 };
 
-export const sampleFlocks: FlockRecord[] = [
+export const initialFlocks: FlockRecord[] = [
   {
     id: 'FL-01',
     name: 'Flock 101 — Lohmann Brown Classic',
@@ -88,6 +88,8 @@ export const sampleFlocks: FlockRecord[] = [
     feedDailyKg: 265,
   },
 ];
+
+export const sampleFlocks = initialFlocks;
 
 // Production records for the last 7 days
 export const eggProduction7Days: EggProductionRecord[] = [
@@ -216,7 +218,7 @@ export const initialFeedInventory: FeedInventoryItem[] = [
   },
   {
     id: 'FD-04',
-    material: 'Layer Feed (Phase-1 Mash)',
+    material: 'Commercial Layer Mash',
     category: 'Commercial Feed',
     availableStockKg: 4200,
     minimumStockKg: 2500,
@@ -266,7 +268,7 @@ export const initialActivities: FarmActivity[] = [
   {
     id: 'ACT-02',
     title: 'Automated Hopper Rations Dispensed',
-    description: '850 kg Layer Mash Phase-1 delivered to automated overhead augers across Shed 1 & 2.',
+    description: '850 kg Commercial Layer Mash delivered to automated overhead augers across Shed 1 & 2.',
     timeAgo: '1.5 hrs ago',
     timestamp: '2026-10-26 08:15 AM',
     category: 'feed',

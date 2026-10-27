@@ -2,10 +2,12 @@
 
 import React from 'react';
 import { Users, Thermometer, Droplets, Wind, ShieldCheck, HeartPulse } from 'lucide-react';
-import { sampleFlocks } from '@/data/mockFarmData';
+import { sampleFlocks } from '@/data/farmData';
 import { formatNumber } from '@/lib/utils';
+import { useLanguage } from '@/context/LanguageContext';
 
-export default function FlockManagementView() {
+export default function FlockManagementPage() {
+  const { isUrdu } = useLanguage();
   const totalActive = sampleFlocks.reduce((sum, f) => sum + f.activeBirds, 0);
 
   return (
@@ -17,18 +19,20 @@ export default function FlockManagementView() {
             <Users className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-[#0F172A]">
-              Commercial Layer Flock Telemetry
-            </h2>
+            <h1 className="text-xl font-bold tracking-tight text-[#0F172A]">
+              {isUrdu ? 'کمرشل لیئر فلاک اور شیڈ ٹیلی میٹری' : 'Commercial Layer Flock Telemetry'}
+            </h1>
             <p className="text-xs text-[#64748B] font-normal mt-0.5">
-              3 Active Layer Flocks &bull; {formatNumber(totalActive)} Active Layers &bull; Automated Climate Monitoring
+              {isUrdu
+                ? `3 فعال شیڈز • ${formatNumber(totalActive)} فعال مرغیاں • خودکار ماحولیاتی مانیٹرنگ`
+                : `3 Active Layer Flocks • ${formatNumber(totalActive)} Active Layers • Automated Climate Monitoring`}
             </p>
           </div>
         </div>
 
         <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-[#0D9488]/10 border border-[#0D9488]/20 text-[#0D9488] text-xs font-semibold w-fit shrink-0">
           <HeartPulse className="w-4 h-4 text-[#0D9488]" />
-          <span>Flock Mortality: 0.02% (Optimal)</span>
+          <span>{isUrdu ? 'اموات کی شرح: 0.02% (محفوظ)' : 'Flock Mortality: 0.02% (Optimal)'}</span>
         </div>
       </div>
 
@@ -45,24 +49,28 @@ export default function FlockManagementView() {
                 <span className="text-[10px] font-semibold uppercase tracking-wider text-[#0D9488] bg-[#0D9488]/10 px-2 py-0.5 rounded border border-[#0D9488]/20">
                   {flock.shed}
                 </span>
-                <h3 className="text-sm font-bold text-[#0F172A] mt-1.5">{flock.name}</h3>
+                <h2 className="text-sm font-bold text-[#0F172A] mt-1.5">{flock.name}</h2>
                 <p className="text-xs text-[#64748B]">{flock.breed}</p>
               </div>
               <span className="text-xs font-semibold text-[#0F172A] bg-slate-100 px-2.5 py-1 rounded-md">
-                Week {flock.ageWeeks}
+                {isUrdu ? `ہفتہ ${flock.ageWeeks}` : `Week ${flock.ageWeeks}`}
               </span>
             </div>
 
             {/* Counts */}
             <div className="grid grid-cols-2 gap-3 p-3 bg-[#F8FAFC] rounded-lg text-xs border border-[#E2E8F0]">
               <div>
-                <span className="text-[10px] text-[#64748B] font-medium block">Active Layers</span>
+                <span className="text-[10px] text-[#64748B] font-medium block">
+                  {isUrdu ? 'زندہ لیئرز' : 'Active Layers'}
+                </span>
                 <span className="text-lg font-bold text-[#0F172A]">
                   {formatNumber(flock.activeBirds)}
                 </span>
               </div>
               <div>
-                <span className="text-[10px] text-[#64748B] font-medium block">Laying Ratio</span>
+                <span className="text-[10px] text-[#64748B] font-medium block">
+                  {isUrdu ? 'پیداواری شرح' : 'Laying Ratio'}
+                </span>
                 <span className="text-lg font-bold text-[#0D9488]">
                   {flock.eggProductionRate}%
                 </span>
@@ -72,13 +80,13 @@ export default function FlockManagementView() {
             {/* Live Climate Sensors */}
             <div className="space-y-1.5 pt-1">
               <span className="text-[10px] font-semibold uppercase tracking-wider text-[#64748B] block">
-                Shed Environment Telemetry
+                {isUrdu ? 'شیڈ کا ماحولیاتی سینسر ڈیٹا' : 'Shed Environment Telemetry'}
               </span>
               <div className="grid grid-cols-3 gap-2 text-center text-xs">
                 <div className="p-2 bg-slate-50 rounded-lg border border-[#E2E8F0]">
                   <div className="flex items-center justify-center space-x-1 text-[#64748B] mb-0.5">
                     <Thermometer className="w-3.5 h-3.5 text-amber-500" />
-                    <span className="text-[10px] font-medium">Temp</span>
+                    <span className="text-[10px] font-medium">{isUrdu ? 'درجہ حرارت' : 'Temp'}</span>
                   </div>
                   <span className="font-bold text-[#0F172A]">{flock.temperatureC}&deg;C</span>
                 </div>
@@ -86,7 +94,7 @@ export default function FlockManagementView() {
                 <div className="p-2 bg-slate-50 rounded-lg border border-[#E2E8F0]">
                   <div className="flex items-center justify-center space-x-1 text-[#64748B] mb-0.5">
                     <Droplets className="w-3.5 h-3.5 text-sky-500" />
-                    <span className="text-[10px] font-medium">RH</span>
+                    <span className="text-[10px] font-medium">{isUrdu ? 'نمی' : 'RH'}</span>
                   </div>
                   <span className="font-bold text-[#0F172A]">{flock.humidityPercent}%</span>
                 </div>
@@ -94,7 +102,7 @@ export default function FlockManagementView() {
                 <div className="p-2 bg-slate-50 rounded-lg border border-[#E2E8F0]">
                   <div className="flex items-center justify-center space-x-1 text-[#64748B] mb-0.5">
                     <Wind className="w-3.5 h-3.5 text-[#0D9488]" />
-                    <span className="text-[10px] font-medium">Airflow</span>
+                    <span className="text-[10px] font-medium">{isUrdu ? 'ہوا' : 'Airflow'}</span>
                   </div>
                   <span className="font-bold text-[#0D9488]">Optimal</span>
                 </div>
@@ -108,7 +116,7 @@ export default function FlockManagementView() {
                 ND/IB Vaccinated
               </span>
               <span className="text-[11px] text-[#64748B]">
-                Loss today: {flock.mortalityToday} birds
+                {isUrdu ? `آج کا نقصان: ${flock.mortalityToday}` : `Loss today: ${flock.mortalityToday} birds`}
               </span>
             </div>
           </div>
